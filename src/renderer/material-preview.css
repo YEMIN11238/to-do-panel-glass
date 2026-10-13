@@ -1,0 +1,75 @@
+/* Native material owns the desktop blur; these fills preserve content contrast. */
+:root:is([data-appearance-mode='liquid'], [data-appearance-mode='frosted']) {
+  --glass-edge: rgb(255 255 255 / .15);
+  --glass-gleam: rgb(255 255 255 / .07);
+  --surface-1: rgb(20 23 29 / .28);
+  --surface-2: rgb(255 255 255 / .065);
+  --surface-3: rgb(255 255 255 / .14);
+}
+:root:is([data-appearance-mode='liquid'], [data-appearance-mode='frosted'])[data-appearance-tone='light'] {
+  --glass-edge: rgb(255 255 255 / .48);
+  --glass-gleam: rgb(255 255 255 / .18);
+  --surface-1: rgb(255 255 255 / .42);
+  --surface-2: rgb(255 255 255 / .28);
+  --surface-3: rgb(255 255 255 / .75);
+}
+:root[data-appearance-mode='liquid'] { --glass-fill: calc(.52 - var(--glass-transparency, .85) * .46); }
+:root[data-appearance-mode='frosted'] { --glass-fill: calc(.46 - var(--glass-transparency, .85) * .42); }
+:root:is([data-appearance-mode='liquid'], [data-appearance-mode='frosted']) :is(.tile, .priority-card, .link-group, .recording-library, .recording-detail) {
+  border: 1px solid var(--glass-edge);
+  background: linear-gradient(145deg, var(--glass-gleam), transparent 40%), var(--surface-1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .06), 0 3px 12px rgb(0 0 0 / .06);
+}
+:root[data-appearance-mode='frosted'] .panel::before {
+  border: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .13);
+}
+:root[data-appearance-mode='liquid'] .tabs {
+  position: relative;
+  isolation: isolate;
+  background: var(--surface-2);
+  border: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / .17), inset 0 -1px 1px rgb(0 0 0 / .08), 0 5px 18px rgb(0 0 0 / .07);
+}
+:root[data-appearance-mode='liquid'] .tabs::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(ellipse 280px 65px at var(--gleam-x, 50%) var(--gleam-y, 0%), rgb(255 255 255 / .20), transparent 80%);
+  z-index: -1;
+}
+:root[data-appearance-mode='liquid'] .tab-indicator {
+  background: linear-gradient(150deg, var(--glass-gleam), transparent), var(--surface-3);
+  border: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / .32), 0 3px 9px rgb(0 0 0 / .10);
+}
+:root[data-appearance-mode='frosted'] :is(.tabs, .app-search, .todo-sidebar, .notes-sidebar) {
+  background: var(--surface-1);
+  border-color: var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-gleam);
+}
+:root[data-appearance-mode='liquid'] .topbar .tab { transition: transform 150ms ease-out, background 150ms ease-out; }
+:root[data-appearance-mode='liquid'] .topbar .tab:hover { transform: translateY(-1px); }
+:root[data-appearance-mode='liquid'] .topbar .tab:active { transform: scale(.985); }
+@media (prefers-reduced-motion: reduce) {
+  :root[data-appearance-mode='liquid'] .topbar .tab { transition: none; transform: none !important; }
+}
+
+/* Reduce stacked tint in frosted mode while keeping text fully opaque. */
+:root[data-appearance-mode='frosted'] {
+  --surface-1: rgb(20 23 29 / .13);
+  --surface-2: rgb(255 255 255 / .05);
+  --glass-gleam: rgb(255 255 255 / .04);
+}
+:root[data-appearance-mode='frosted'][data-appearance-tone='light'] {
+  --surface-1: rgb(255 255 255 / .18);
+  --surface-2: rgb(255 255 255 / .16);
+  --glass-gleam: rgb(255 255 255 / .08);
+}
+
+/* Keep the default artwork visible in both palettes; camera mode still takes precedence. */
+.home-mirror:not(.live) .mirror-photo:not(.mirror-liquid-layer) { opacity: 1; }
+.home-mirror .mirror-stage { position: relative; overflow: hidden; }
+.home-mirror .mirror-photo[src="assets/mirror-portrait.jpg"] { object-fit: cover; object-position: 50% 45%; }

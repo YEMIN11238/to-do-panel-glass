@@ -1,0 +1,175 @@
+/* Whole-window native backdrop with neutral, fully opaque content. */
+:root[data-appearance-mode] {
+  color-scheme: normal;
+  --glass-rgb: 24 26 30;
+  --glass-fill: calc(.94 - var(--glass-transparency, .65) * .56);
+  --surface-1: rgb(var(--glass-rgb) / .20);
+  --surface-2: rgb(255 255 255 / .09);
+  --surface-3: rgb(255 255 255 / .16);
+  --bg-base: rgb(var(--glass-rgb) / var(--glass-fill));
+  --text-1: #f5f6f8;
+  --text-2: #d3d6dd;
+  --text-3: #b0b6c2;
+  --text-4: #929aa8;
+  --glass-edge: rgb(255 255 255 / .18);
+  --glass-gleam: rgb(255 255 255 / .17);
+  --hairline: var(--glass-edge);
+  --hairline-soft: rgb(255 255 255 / .10);
+  --item-hover: rgb(255 255 255 / .09);
+  --tooltip-bg: #24262d;
+  --glass-dialog: rgb(32 35 41 / .96);
+  --panel-shadow: rgb(0 0 0 / .24);
+}
+:root[data-appearance-tone='light'] {
+  --glass-rgb: 255 255 255;
+  --surface-1: rgb(255 255 255 / .20);
+  --surface-2: rgb(255 255 255 / .36);
+  --surface-3: rgb(255 255 255 / .66);
+  --text-1: #20252d;
+  --text-2: #404957;
+  --text-3: #526071;
+  --text-4: #657183;
+  --glass-edge: rgb(255 255 255 / .55);
+  --glass-gleam: rgb(255 255 255 / .72);
+  --hairline-soft: rgb(32 37 45 / .10);
+  --item-hover: rgb(255 255 255 / .38);
+  --tooltip-bg: #f1f3f6;
+  --glass-dialog: rgb(247 249 252 / .97);
+  --accent-green: #168348;
+  --accent-orange: #b95817;
+  --accent-blue: #2469c7;
+}
+:root[data-appearance-mode='frosted'] { --glass-fill: calc(.96 - var(--glass-transparency, .65) * .56); }
+:root[data-appearance-mode='liquid'] { --glass-fill: calc(.92 - var(--glass-transparency, .85) * .64); }
+:root[data-appearance-mode='system'] { --glass-fill: 1; --surface-1: #252830; --surface-2: #333741; --surface-3: #454b56; --bg-base: #17191e; }
+:root[data-appearance-mode='system'][data-appearance-tone='light'] { --surface-1: #ffffff; --surface-2: #eef0f5; --surface-3: #e1e5ed; --bg-base: #f3f5f9; --glass-edge: rgb(32 37 45 / .09); }
+:root[data-appearance-mode] .panel::before {
+  background: var(--bg-base);
+  border: 1px solid var(--glass-edge);
+  border-top: 0;
+  box-shadow: inset 0 1px 0 var(--glass-gleam), 0 18px 52px var(--panel-shadow);
+}
+:root[data-appearance-mode] .panel::after { display: none; }
+:root[data-appearance-mode] :is(.tile, .priority-card, .link-group, .recording-library, .recording-detail) {
+  background: linear-gradient(150deg, var(--glass-gleam), transparent 58%), var(--surface-1);
+  border: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-gleam), 0 8px 20px rgb(0 0 0 / .08);
+}
+:root[data-appearance-mode] :is(.tile:hover, .priority-card:hover, .link-group:hover) {
+  box-shadow: inset 0 1px 0 var(--glass-gleam), 0 12px 28px rgb(0 0 0 / .13);
+}
+:root[data-appearance-mode] :is(.tabs, .app-search, .todo-sidebar, .notes-sidebar, .notes-editor, .todo-category, .workspace-input, .workspace-select) {
+  background: var(--surface-1);
+  border-color: var(--glass-edge);
+  color: var(--text-1);
+}
+:root[data-appearance-mode] :is(.collapse-btn, .workspace-button, .record-control) {
+  background: var(--surface-2);
+  border-color: var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-gleam), 0 3px 10px rgb(0 0 0 / .08);
+}
+:root[data-appearance-mode] :is(.tab.active, .tab-indicator) { background: var(--surface-3); color: var(--text-1); }
+:root[data-appearance-mode] :is(.tile-label, .todo-category-name:focus, .widget-size-control, .todo-battery b) { color: var(--text-1); }
+:root[data-appearance-mode] :is(.todo-editor-card, .transcription-settings-card, .credential-edit-card, .shortcut-recorder, .workspace-menu) {
+  background: var(--glass-dialog);
+  color: var(--text-1);
+  border-color: var(--glass-edge);
+}
+:root[data-appearance-mode] :is(input:not([type='range']), textarea, select, [contenteditable='true']) { color: var(--text-1); }
+:root[data-appearance-mode] ::placeholder { color: var(--text-3); opacity: 1; }
+:root[data-appearance-mode] select option { background: var(--glass-dialog); color: var(--text-1); }
+/* Photography and artwork keep their original contrast. */
+:root[data-appearance-mode] :is(.home-music, .home-pomodoro, .home-mirror) { --text-1: #f5f6f8; --text-2: #d3d6dd; --text-3: #b0b6c2; }
+:root[data-appearance-tone='light'] :is(.secure-chip, .settings-status-list small[data-state='saved'], .api-field-heading small[data-state='saved']) { color: #167947; }
+:root[data-appearance-mode] .glass-settings-card { padding: 18px; }
+.glass-settings-card .settings-card-heading { margin-bottom: 12px; }
+#glass-status { color: var(--text-3); font-size: 10px; }
+.glass-options { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--glass-edge); border-radius: 12px; background: var(--surface-1); }
+.glass-options button { flex: 1; border: 0; border-radius: 8px; padding: 8px 12px; background: transparent; color: var(--text-2); font: 500 11px var(--font); cursor: pointer; transition: background 140ms, box-shadow 140ms; white-space: nowrap; }
+.glass-options button[aria-pressed='true'] { background: var(--surface-3); color: var(--text-1); box-shadow: 0 2px 5px rgb(0 0 0 / .09), inset 0 1px 0 var(--glass-gleam); }
+.glass-options button:hover:not(:disabled) { background: var(--surface-2); }
+.glass-options button:disabled { opacity: .5; cursor: default; }
+.glass-tone-row { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; gap: 12px; font-size: 11px; color: var(--text-2); }
+.glass-tone-row .glass-options button { padding: 5px 16px; }
+.glass-slider-row { display: grid; grid-template-columns: 64px 1fr 38px; align-items: center; gap: 12px; margin-top: 14px; color: var(--text-2); font-size: 11px; }
+.glass-slider-row input { width: 100%; margin: 0; accent-color: var(--accent-blue); cursor: pointer; }
+.glass-slider-row output { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-1); }
+.glass-slider-row input:disabled { opacity: .45; cursor: default; }
+@media (prefers-reduced-motion: reduce) { .glass-options button { transition: none; } }
+:root[data-appearance-mode] .home-bento > :is(.home-music, .home-pomodoro) {
+  background: #08090a;
+  --surface-2: rgb(255 255 255 / .09);
+  --surface-3: rgb(255 255 255 / .16);
+  --glass-edge: rgb(255 255 255 / .18);
+  --glass-gleam: rgb(255 255 255 / .17);
+}
+:root[data-appearance-mode] #app:is(.collapsed, .closing) .notch { background: #000; }
+
+/* Native and renderer use the same 28px circular contour, with a single rim. */
+:root[data-appearance-mode] .panel { border-radius: 28px; }
+:root[data-appearance-mode] #app.expanded .panel::before { clip-path: inset(0 round 28px); }
+:root[data-appearance-mode='liquid'] .panel::before { border: 0; box-shadow: none; }
+
+/* Fill the default cover tile and center the cats, cropping excess white space. */
+.home-bento > .home-mirror[data-layout-variant] .mirror-photo[src="assets/mirror-portrait.jpg"] { object-fit: cover; object-position: 50% 40%; }
+.mirror-stage:has(.mirror-photo[src="assets/mirror-portrait.jpg"]) { background: #fff; }
+
+/* Media surfaces follow the selected UI palette instead of forcing black. */
+:root[data-appearance-tone] .home-bento > :is(.home-music, .home-pomodoro) {
+  --text-1: #f5f6f8; --text-2: #cbd1db; --text-3: #a7b1c0;
+  --media-base: #262b34; --media-cloud: rgb(105 125 153 / .18);
+  --media-edge: rgb(255 255 255 / .12); --media-button: rgb(255 255 255 / .10);
+  --media-shadow: rgb(0 0 0 / .14);
+  background: radial-gradient(ellipse at 16% 10%, var(--media-cloud), transparent 72%), var(--media-base);
+  border: 1px solid var(--media-edge);
+  box-shadow: inset 0 1px 0 var(--media-edge), 0 8px 22px var(--media-shadow);
+}
+:root[data-appearance-tone='light'] .home-bento > :is(.home-music, .home-pomodoro) {
+  --text-1: #263140; --text-2: #475769; --text-3: #617083;
+  --media-base: #f3f6fa; --media-cloud: rgb(168 193 221 / .24);
+  --media-edge: rgb(255 255 255 / .78); --media-button: rgb(255 255 255 / .68);
+  --media-shadow: rgb(65 82 108 / .08);
+}
+:root[data-appearance-tone] .home-music .module-effect-canvas {
+  opacity: .36; filter: saturate(.55) blur(1.5px); mix-blend-mode: screen;
+}
+:root[data-appearance-tone='light'] .home-music .module-effect-canvas {
+  opacity: .24; filter: saturate(.45) blur(2px); mix-blend-mode: multiply;
+}
+:root[data-appearance-tone] .home-music::after { background: none; }
+:root[data-appearance-tone] :is(.home-music .music-copy strong, .home-pomodoro .pomodoro-dial input, .home-pomodoro .pomodoro-dial span) { color: var(--text-1); text-shadow: none; }
+:root[data-appearance-tone] :is(.home-music .music-copy small, .home-pomodoro .pomodoro-status, .home-pomodoro .pomodoro-caption) { color: var(--text-2); }
+:root[data-appearance-tone] :is(.home-music .music-controls button, .home-pomodoro > .pomodoro-toggle) {
+  background: var(--media-button); color: var(--text-1); border: 1px solid var(--media-edge);
+  box-shadow: inset 0 1px 0 var(--media-edge), 0 4px 12px var(--media-shadow);
+}
+:root[data-appearance-tone] :is(.home-music .music-controls button:hover, .home-pomodoro > .pomodoro-toggle:hover) { background: var(--surface-3); }
+:root[data-appearance-tone] .home-pomodoro .pomodoro-progress-track { stroke: var(--hairline-soft); }
+:root[data-appearance-tone] .home-pomodoro > .pomodoro-reset { background: rgb(225 72 66 / .12); color: #d44640; border-color: rgb(225 72 66 / .2); box-shadow: none; }
+
+/* The dark default fills the same tile with the supplied star field. */
+.home-bento > .home-mirror[data-layout-variant] .mirror-photo[src="assets/mirror-night.jpg"] { object-fit: cover; object-position: center; }
+.mirror-stage:has(.mirror-photo[src="assets/mirror-night.jpg"]) { background: #1b1b1b; }
+
+/* A full-sized panel slides vertically into its original position. No folding or grip marks. */
+#app.collapsed .notch { height: var(--notch-h, 38px); background: transparent !important; }
+.notch-dot, .panel-pull-handle { display: none !important; }
+#app.expanded .topbar { cursor: ns-resize; touch-action: none; }
+#app.pulling { position: absolute; top: 0; left: 50%; transform: translate(-50%, var(--pull-offset, 0px)); width: var(--pull-width); height: var(--pull-height); }
+#app.pulling .panel::before { transition: none; clip-path: none; opacity: 1; }
+#app.pulling .panel > .topbar, #app.pulling .panel > .panels { transition: none; opacity: 1; }
+
+/* Existing keyboard toggles also slide instead of morphing the shell. */
+#app .notch { background: transparent !important; }
+#app .panel { transition: transform 200ms cubic-bezier(.2,.8,.2,1); }
+#app:is(.collapsed, .opening, .closing) .panel { transform: translateY(-100%); }
+#app.expanded:not(.closing) .panel { transform: translateY(0); }
+#app .panel::before { clip-path: none !important; }
+#app.pulling .panel { transition: none; }
+
+/* Promote only the moving drawer during the pull. */
+#app.pulling { will-change: transform; }
+
+/* Invisible bottom edge receives the same vertical close gesture. */
+.panel-bottom-pull { position: absolute; left: 28px; right: 28px; bottom: 0; height: 24px; z-index: 100; background: transparent; touch-action: none; cursor: ns-resize; pointer-events: none; }
+#app.expanded:not(.closing) .panel-bottom-pull { pointer-events: auto; }
